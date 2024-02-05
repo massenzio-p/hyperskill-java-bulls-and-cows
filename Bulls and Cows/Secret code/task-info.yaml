@@ -114,6 +114,80 @@ files:
           }
       }
     learner_created: false
+  - name: src/bullscows/Grader.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      public interface Grader {
+          Grade getGrade(char[] guess);
+      }
+    learner_created: true
+  - name: src/bullscows/GuessGrader.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      import java.util.Arrays;
+      import java.util.Collections;
+      import java.util.HashSet;
+      import java.util.Set;
+      
+      public class GuessGrader implements Grader {
+      
+          private final char[] secret;
+          private final Set<Character> alphabet;
+      
+          public GuessGrader(char[] secret) {
+              this.secret = secret;
+              this.alphabet = new HashSet<>();
+              for (var digit : secret) {
+                  alphabet.add(digit);
+              }
+          }
+      
+          @Override
+          public Grade getGrade(char[] guess) {
+              int bulls = 0;
+              int cows = 0;
+              for (int i = 0; i < guess.length; i++) {
+                  if (secret[i] == guess[i]) {
+                      bulls++;
+                  } else if (alphabet.contains(guess[i])) {
+                      cows++;
+                  }
+              }
+              return new Grade(bulls, cows);
+          }
+      }
+    learner_created: true
+  - name: src/bullscows/Grade.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      public class Grade {
+      
+          private final int bulls;
+          private final int cows;
+      
+          public Grade(int bulls, int cows) {
+              this.bulls = bulls;
+              this.cows = cows;
+          }
+      
+          public int getBulls() {
+              return bulls;
+          }
+      
+          public int getCows() {
+              return cows;
+          }
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/53/stages/289/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 05 Feb 2024 16:53:53 UTC"
 record: -1
