@@ -177,6 +177,18 @@ files:
           }
       }
     learner_created: false
+  - name: src/bullscows/Grader.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/Grade.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/GuessGrader.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/53/stages/288/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 05 Feb 2024 16:31:51 UTC"
 record: -1
