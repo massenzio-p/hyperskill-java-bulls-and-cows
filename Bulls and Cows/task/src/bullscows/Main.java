@@ -1,19 +1,49 @@
 package bullscows;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        System.out.println("Please, enter the secret code's length:");
         int size = scanner.nextInt();
+        String secretCode;
+        try {
+            secretCode = generateSecret(size);
+            System.out.println("Okay, let's start a game!");
+        } catch (RuntimeException e) {
+            scanner.close();
+            return;
+        }
+
+        String input;
+        int turn = 0;
+        Grader grader = new GuessGrader(secretCode.toCharArray());
+
+        while (true) {
+            turn++;
+            System.out.printf("Turn %d:%n", turn);
+            input = scanner.nextLine();
+            Grade grade = grader.getGrade(input.toCharArray());
+            String gradeMessage = getGradeMessage(grade);
+            System.out.printf(
+                    "Grade: %s%n",
+                    gradeMessage,
+                    String.join("", secretCode));
+            if (input.equals(secretCode)) {
+                System.out.println("Congratulations! You guessed the secret code.");
+                return;
+            }
+        }
+    }
+
+    private static String generateSecret(int size) {
         if (size > 10) {
             System.out.println("Error: can't generate a secret number with a length of 11 " +
                     "because there aren't enough unique digits.\n");
-            return;
+            throw new RuntimeException();
         }
         StringBuilder randomNumberBuilder = new StringBuilder();
         Set<Integer> alphabet = new HashSet<>();
@@ -28,19 +58,7 @@ public class Main {
                 randomNumberBuilder.append(number);
             }
         }
-        System.out.printf("The random secret number is %s.%n", randomNumberBuilder);
-
-        /*String secret = Integer.toString(
-                new Random().nextInt(10000 - 1000) + 1000);
-        Grader grader = new GuessGrader(secret.toCharArray());
-
-        Grade grade = grader.getGrade(scanner.nextLine().toCharArray());
-        String gradeMessage = getGradeMessage(grade);
-
-        System.out.printf(
-                "Grade: %s. The secret code is %s.%n",
-                gradeMessage,
-                String.join("", secret));*/
+        return randomNumberBuilder.toString();
     }
 
     private static String getGradeMessage(Grade grade) {
@@ -49,13 +67,19 @@ public class Main {
         }
         StringBuilder builder = new StringBuilder();
         if (grade.getBulls() > 0) {
-            builder.append(grade.getBulls()).append(" bull(s)");
+            builder.append(grade.getBulls()).append(" bull");
+            if (grade.getBulls() > 1) {
+                builder.append("s");
+            }
         }
         if (grade.getCows() > 0) {
             if (!builder.isEmpty()) {
                 builder.append(" and ");
             }
-            builder.append(grade.getCows()).append(" cows(s)");
+            builder.append(grade.getCows()).append(" cows");
+            if (grade.getCows() > 1) {
+                builder.append("s");
+            }
         }
         return builder.toString();
     }
