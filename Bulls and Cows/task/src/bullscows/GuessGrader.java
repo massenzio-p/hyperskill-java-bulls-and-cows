@@ -13,8 +13,8 @@ public class GuessGrader implements Grader {
     public GuessGrader(char[] secret) {
         this.secret = secret;
         this.alphabet = new HashSet<>();
-        for (var digit : secret) {
-            alphabet.add(digit);
+        for (var character : secret) {
+            alphabet.add(character);
         }
     }
 
