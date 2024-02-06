@@ -408,6 +408,96 @@ files:
           }
       }
     learner_created: false
+  - name: src/bullscows/Grader.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      public interface Grader {
+          Grade getGrade(char[] guess);
+      }
+    learner_created: true
+  - name: src/bullscows/GuessGrader.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      import java.util.Arrays;
+      import java.util.Collections;
+      import java.util.HashSet;
+      import java.util.Set;
+      
+      public class GuessGrader implements Grader {
+      
+          private final char[] secret;
+          private final Set<Character> alphabet;
+      
+          public GuessGrader(char[] secret) {
+              this.secret = secret;
+              this.alphabet = new HashSet<>();
+              for (var character : secret) {
+                  alphabet.add(character);
+              }
+          }
+      
+          @Override
+          public Grade getGrade(char[] guess) {
+              int bulls = 0;
+              int cows = 0;
+              for (int i = 0; i < guess.length; i++) {
+                  if (secret[i] == guess[i]) {
+                      bulls++;
+                  } else if (alphabet.contains(guess[i])) {
+                      cows++;
+                  }
+              }
+              return new Grade(bulls, cows);
+          }
+      }
+    learner_created: true
+  - name: src/bullscows/Grade.java
+    visible: true
+    text: |
+      package bullscows;
+      
+      public class Grade {
+      
+          private final int bulls;
+          private final int cows;
+      
+          public Grade(int bulls, int cows) {
+              this.bulls = bulls;
+              this.cows = cows;
+          }
+      
+          public int getBulls() {
+              return bulls;
+          }
+      
+          public int getCows() {
+              return cows;
+          }
+      }
+    learner_created: true
+  - name: src/bullscows/InvalidParamsException.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/GameParams.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/CodeGenerationException.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/BullsAndCowsGame.java
+    visible: true
+    learner_created: true
+  - name: src/bullscows/SecretGenerator.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5435#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Tue, 06 Feb 2024 18:50:11 UTC"
 record: -1
