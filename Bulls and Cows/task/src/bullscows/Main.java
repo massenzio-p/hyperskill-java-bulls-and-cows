@@ -1,8 +1,6 @@
 package bullscows;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,17 +44,10 @@ public class Main {
             throw new RuntimeException();
         }
         StringBuilder randomNumberBuilder = new StringBuilder();
-        Set<Integer> alphabet = new HashSet<>();
-        while (randomNumberBuilder.length() < size) {
-            char[] nanos = Long.toString(System.nanoTime()).toCharArray();
-            for (int i = nanos.length - 1; i >= 0 && randomNumberBuilder.length() < size; i--) {
-                int number = Character.getNumericValue(nanos[i]);
-                if (alphabet.contains(number) || number == 0 && randomNumberBuilder.isEmpty()) {
-                    continue;
-                }
-                alphabet.add(number);
-                randomNumberBuilder.append(number);
-            }
+        List<Integer> alphabet = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+        Collections.shuffle(alphabet);
+        for (int i = 0; i < size; i++) {
+            randomNumberBuilder.append(alphabet.get(i));
         }
         return randomNumberBuilder.toString();
     }
